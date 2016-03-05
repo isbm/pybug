@@ -187,6 +187,7 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
 
         self.ui.my_bugs_table.setSortingEnabled(_sorting)
 
+
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     myapp = StartQT4()
