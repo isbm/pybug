@@ -8,13 +8,14 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow, UIUtilsMixin):
     '''
     Main window.
     '''
-    def __init__(self):
+    def __init__(self, config):
         '''
-        Constructor.
+        Constructor requires a config.
 
         :return:
         '''
         QtGui.QWidget.__init__(self, None)
+        self.config = config
         self.setupUi(self)
         self.retranslateUi(self)
 
@@ -26,6 +27,15 @@ class MainWindow(QtGui.QMainWindow, Ui_MainWindow, UIUtilsMixin):
         :return:
         '''
         Ui_MainWindow.retranslateUi(self, window)
+
+    def on_settings(self):
+        '''
+        Call settings
+        :return:
+        '''
+        from ui.settings import SettingsWindow
+        settings = SettingsWindow(self.config)
+        settings.showDialog()
 
     def double_clicked(self):
         print "Fixup"
