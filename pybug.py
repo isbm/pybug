@@ -116,7 +116,7 @@ class RecordParamsMixIn(object):
 class StartQT4(RecordParamsMixIn, UtilsMixIn):
     def __init__(self, parent=None):
         self.config = self.get_config()
-        self.ui = MainWindow()
+        self.ui = MainWindow().center()
         self.reset_table()
         self.login()
         self.load_bugs()

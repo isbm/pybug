@@ -20,3 +20,5 @@ class UIUtilsMixin(object):
         centerPoint = QtGui.QApplication.desktop().screenGeometry(screen).center()
         frameGm.moveCenter(centerPoint)
         self.move(frameGm.topLeft())
+
+        return self

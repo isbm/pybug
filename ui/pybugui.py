@@ -1,9 +1,10 @@
 from _pybugui import Ui_MainWindow, _translate
+from ui.uimix import UIUtilsMixin
 from PyQt4 import QtGui
 import sys
 
 
-class MainWindow(QtGui.QMainWindow, Ui_MainWindow):
+class MainWindow(QtGui.QMainWindow, Ui_MainWindow, UIUtilsMixin):
     '''
     Main window.
     '''
