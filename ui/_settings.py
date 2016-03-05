@@ -104,7 +104,7 @@ class Ui_SettingsDialog(object):
         self.verticalLayout_2.addLayout(self.horizontalLayout)
 
         self.retranslateUi(SettingsDialog)
-        self.tabWidget.setCurrentIndex(2)
+        self.tabWidget.setCurrentIndex(0)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), SettingsDialog.close)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), SettingsDialog.on_save)
         QtCore.QMetaObject.connectSlotsByName(SettingsDialog)
