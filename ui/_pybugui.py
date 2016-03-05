@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'pybug.ui'
+# Form implementation generated from reading ui file 'ui/xml/pybug.ui'
 #
 # Created by: PyQt4 UI code generator 4.11.4
 #
@@ -124,15 +124,36 @@ class Ui_MainWindow(object):
         self.horizontalLayout.addWidget(self.pushButton)
         self.verticalLayout_5.addLayout(self.horizontalLayout)
         MainWindow.setCentralWidget(self.centralwidget)
+        self.menuBar = QtGui.QMenuBar(MainWindow)
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 731, 25))
+        self.menuBar.setObjectName(_fromUtf8("menuBar"))
+        self.menu_File = QtGui.QMenu(self.menuBar)
+        self.menu_File.setObjectName(_fromUtf8("menu_File"))
+        self.menu_Help = QtGui.QMenu(self.menuBar)
+        self.menu_Help.setObjectName(_fromUtf8("menu_Help"))
+        MainWindow.setMenuBar(self.menuBar)
+        self.actionE_xit = QtGui.QAction(MainWindow)
+        self.actionE_xit.setObjectName(_fromUtf8("actionE_xit"))
+        self.action_About = QtGui.QAction(MainWindow)
+        self.action_About.setObjectName(_fromUtf8("action_About"))
+        self.action_Settings = QtGui.QAction(MainWindow)
+        self.action_Settings.setObjectName(_fromUtf8("action_Settings"))
+        self.menu_File.addAction(self.action_Settings)
+        self.menu_File.addSeparator()
+        self.menu_File.addAction(self.actionE_xit)
+        self.menu_Help.addAction(self.action_About)
+        self.menuBar.addAction(self.menu_File.menuAction())
+        self.menuBar.addAction(self.menu_Help.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QObject.connect(self.my_bugs_table, QtCore.SIGNAL(_fromUtf8("itemDoubleClicked(QTableWidgetItem*)")), MainWindow.double_clicked)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.open_in_browser)
+        QtCore.QObject.connect(self.actionE_xit, QtCore.SIGNAL(_fromUtf8("activated()")), MainWindow.close)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow", None))
-        self.self_bugs_label.setText(_translate("MainWindow", "TextLabel", None))
+        self.self_bugs_label.setText(_translate("MainWindow", "My Bugs", None))
         self.my_bugs_table.setSortingEnabled(True)
         item = self.my_bugs_table.verticalHeaderItem(0)
         item.setText(_translate("MainWindow", "ddd", None))
@@ -152,6 +173,11 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Crazy shit happened", None))
         self.my_bugs_table.setSortingEnabled(__sortingEnabled)
         self.l3_bugs.setText(_translate("MainWindow", "L3 Bugs", None))
-        self.common_bugs.setText(_translate("MainWindow", "Common", None))
+        self.common_bugs.setText(_translate("MainWindow", "Team Issues", None))
         self.pushButton.setText(_translate("MainWindow", "View in Browser", None))
+        self.menu_File.setTitle(_translate("MainWindow", "&File", None))
+        self.menu_Help.setTitle(_translate("MainWindow", "&Help", None))
+        self.actionE_xit.setText(_translate("MainWindow", "E&xit", None))
+        self.action_About.setText(_translate("MainWindow", "&About", None))
+        self.action_Settings.setText(_translate("MainWindow", "&Settings", None))
 
