@@ -149,6 +149,7 @@ class Ui_MainWindow(object):
         QtCore.QObject.connect(self.my_bugs_table, QtCore.SIGNAL(_fromUtf8("itemDoubleClicked(QTableWidgetItem*)")), MainWindow.double_clicked)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), MainWindow.open_in_browser)
         QtCore.QObject.connect(self.actionE_xit, QtCore.SIGNAL(_fromUtf8("activated()")), MainWindow.close)
+        QtCore.QObject.connect(self.action_Settings, QtCore.SIGNAL(_fromUtf8("activated()")), MainWindow.on_settings)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
