@@ -17,7 +17,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab">
       <attribute name="title">
@@ -34,7 +34,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="my_bugs_title">
            <property name="text">
             <string>My Bugs</string>
            </property>
@@ -43,7 +43,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_2">
+        <widget class="QPlainTextEdit" name="my_bugs_query">
          <property name="font">
           <font>
            <family>Input Mono</family>
@@ -68,7 +68,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QLineEdit" name="important_bugs_title">
            <property name="text">
             <string>Important Issues</string>
            </property>
@@ -77,7 +77,7 @@
         </layout>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit">
+        <widget class="QPlainTextEdit" name="important_bugs_query">
          <property name="font">
           <font>
            <family>Input Mono</family>
@@ -102,12 +102,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_3"/>
+          <widget class="QLineEdit" name="common_bugs_title"/>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_3">
+        <widget class="QPlainTextEdit" name="common_bugs_query">
          <property name="font">
           <font>
            <family>Input Mono</family>
