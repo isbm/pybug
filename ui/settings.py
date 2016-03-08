@@ -23,7 +23,6 @@ class SettingsWindow(Ui_SettingsDialog, BaseDialogMixIn, UtilsMixIn):
         '''
         BaseDialogMixIn.__init__(self)
         self.config = config
-        self._load_config()
 
     def _load_config(self):
         '''
@@ -31,6 +30,26 @@ class SettingsWindow(Ui_SettingsDialog, BaseDialogMixIn, UtilsMixIn):
 
         :return:
         '''
+        # Set titles
+        self.my_bugs_title.setText(self.config.get('search', dict())
+                                   .get(self.ASSIGNED_BUGS, dict())
+                                   .get('title', 'My Bugs'))
+        self.important_bugs_title.setText(self.config.get('search', dict())
+                                          .get(self.IMPORTANT_BUGS, dict())
+                                          .get('title', 'Important Bugs'))
+        self.common_bugs_title.setText(self.config.get('search', dict())
+                                       .get(self.COMMON_BUGS, dict())
+                                       .get('title', 'Common Bugs'))
+        # Set queries
+        data = self.config.get('search', dict()).get(self.ASSIGNED_BUGS, dict()).get('data', '')
+        if data:
+            self.my_bugs_query.setPlainText(yaml.dump(data, default_flow_style=False))
+        data = self.config.get('search', dict()).get(self.IMPORTANT_BUGS, dict()).get('data', '')
+        if data:
+            self.important_bugs_query.setPlainText(yaml.dump(data, default_flow_style=False))
+        data = self.config.get('search', dict()).get(self.COMMON_BUGS, dict()).get('data', '')
+        if data:
+            self.common_bugs_query.setPlainText(yaml.dump(data, default_flow_style=False))
 
     def on_save(self):
         '''
@@ -98,3 +117,4 @@ class SettingsWindow(Ui_SettingsDialog, BaseDialogMixIn, UtilsMixIn):
         :return:
         '''
         Ui_SettingsDialog.retranslateUi(self, window)
+        self._load_config()
