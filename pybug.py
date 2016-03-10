@@ -129,7 +129,8 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
         try:
             self.load_bugs()
         except Exception as error:
-            error_title, error_message = "Loading Bugs Error", str(error)
+            print sys.stderr, error
+            error_title, error_message = "Loading Bugs Error", "Unhandled exception occurred while loading bug list."
 
         if error_message:
             QtGui.QMessageBox.critical(None, error_title, error_message, QtGui.QMessageBox.Abort)
