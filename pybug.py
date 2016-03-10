@@ -119,8 +119,22 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
         self.config = self.get_config()
         self.ui = MainWindow(self.config).center()
         self.reset_table()
-        self.login()
-        self.load_bugs()
+
+        error_title, error_message = None, None
+        try:
+            self.login()
+        except Exception as error:
+            error_title, error_message = "Login Error", str(error)
+
+        try:
+            self.load_bugs()
+        except Exception as error:
+            error_title, error_message = "Loading Bugs Error", str(error)
+
+        if error_message:
+            QtGui.QMessageBox.critical(None, error_title, error_message, QtGui.QMessageBox.Abort)
+            sys.exit(1)
+
         self.ui_fixup()
 
         # Widget fix-up
