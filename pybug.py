@@ -69,7 +69,8 @@ class RecordParamsMixIn(object):
     '''
 
     FOREGROUNDS = {
-        'P1': QtGui.QColor(0xff, 0, 0),
+        'P0': QtGui.QColor(0xff, 0, 0),
+        'P1': QtGui.QColor(0x88, 0, 0),
         'P2': QtGui.QColor(0xe6, 0x73, 0),
         'P3': QtGui.QColor(0, 0x66, 0),
         'P4': QtGui.QColor(0, 0x2d, 0xb3),
