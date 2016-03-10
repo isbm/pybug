@@ -148,7 +148,7 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
                 self.config['bugzilla']['password'] = pwd
             if self.login_window.private_computer_check.isChecked():
                 self.save_config(self.config)
-            self.bugop = bugop.BugzillaOperations('https://bugzilla.suse.com/xmlrpc.cgi', self.config)
+            self.bugop = bugop.BugzillaOperations('https://apibugzilla.novell.com/xmlrpc.cgi', self.config)
 
     def ui_fixup(self):
         '''
