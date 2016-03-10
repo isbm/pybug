@@ -173,7 +173,8 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
         _buff = []
         for data_item in data:
             if data_item['status'] not in ['RESOLVED']:
-                _buff.append(data_item)
+                if not data_item['resolution']:
+                    _buff.append(data_item)
         data = _buff[:]
         del _buff
 
