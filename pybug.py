@@ -184,14 +184,6 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
         Load bugs
         '''
         data = self.bugop.get_my_bugs()
-        _buff = []
-        for data_item in data:
-            if data_item['status'] not in ['RESOLVED']:
-                if not data_item['resolution']:
-                    _buff.append(data_item)
-        data = _buff[:]
-        del _buff
-
         self.ui.my_bugs_table.setRowCount(len(data))
 
         _sorting = self.ui.my_bugs_table.isSortingEnabled()

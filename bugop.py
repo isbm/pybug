@@ -82,10 +82,9 @@ class Bugzilla(xmlrpclib.Server):
     '''
     Bugzilla server connection.
     '''
-    def __init__(self, url, username, password, verbose=False, cookiefile=None, user_agent=None):
+    def __init__(self, url, username, password):
         self.url = Url(url)
-        self.url.user = username
-        self.url.password = password
+        self.url.user, self.url.password = username, password
         self.user_id = {'id': 0}
 
         xmlrpclib.Server.__init__(self, self.url.geturl())
@@ -115,7 +114,8 @@ class BugzillaOperations(object):
     '''
     def __init__(self, url, config):
         self.config = config
-        self.bz = Bugzilla(url, self.config['bugzilla']['user'], self.config['bugzilla']['password']).login()
+        self.bz = Bugzilla(url, self.config['bugzilla']['user'],
+                           self.config['bugzilla']['password']).login()
 
     def get_my_bugs(self):
         '''
@@ -123,18 +123,42 @@ class BugzillaOperations(object):
 
         :return:
         '''
+
         ret = list()
-        query = self.config.get('search', dict()).get(SettingsWindow.ASSIGNED_BUGS, dict()).get('data', dict())
-        if not query:
+        query_set = self.config.get('search', dict()).get(
+            SettingsWindow.ASSIGNED_BUGS, dict()).get('data', dict())
+        if not query_set:
             return ret
 
-        for bug in self.bz.search(query):
-            ret.append({
-                'id': bug['id'],
-                'priority': bug['priority'],
-                'status': bug['status'],
-                'resolution': bug['resolution'],
-                'title': bug['summary'],
-            })
-
+        for query_id, query_compound in query_set.items():
+            print "Processing query", query_id
+            if not query_compound.get('query'):
+                continue
+            for bug in self.bz.search(query_compound.get('query')):
+                if not self._filter(bug, query_compound.get('filter')):
+                    ret.append({
+                        'id': bug['id'],
+                        'priority': bug['priority'],
+                        'status': bug['status'],
+                        'resolution': bug['resolution'],
+                        'title': bug['summary'],
+                    })
         return ret
+
+    def _filter(self, bug, q_filter):
+        '''
+        Return true, if data needs to be filtered out.
+
+        :param q_filter:
+        :return:
+        '''
+        if q_filter:
+            if 'status' in q_filter and bug['status'] in q_filter.get('status'):
+                return True
+            if 'resolution' in q_filter:
+                if not q_filter['resolution'] and bug['resolution']:
+                    return True
+                elif q_filter['resolution'] and bug['resolution'] in q_filter['resolution']:
+                    return True
+
+        return False
