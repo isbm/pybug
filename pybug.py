@@ -130,18 +130,16 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
 
         try:
             self.load_bugs()
+            pass
         except Exception as error:
-            print sys.stderr, error
             error_title, error_message = "Loading Bugs Error", "Unhandled exception occurred while loading bug list."
+            raise
 
         if error_message:
             QtGui.QMessageBox.critical(None, error_title, error_message, QtGui.QMessageBox.Abort)
             sys.exit(1)
 
         self.ui_fixup()
-
-        # Widget fix-up
-        self.ui.my_bugs_table.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
 
     def login(self):
         '''
@@ -173,30 +171,34 @@ class StartQT4(RecordParamsMixIn, UtilsMixIn):
 
         :return:
         '''
-        self.ui.my_bugs_table.horizontalHeader().setStretchLastSection(True)
+        for table in [self.ui.my_bugs_table, self.ui.common_bugs_table, self.ui.l3_bugs_table]:
+            table.horizontalHeader().setStretchLastSection(True)
+            table.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
 
     def reset_table(self):
         '''
         Removes everything from the table.
         '''
-        self.ui.my_bugs_table.setColumnCount(3)
-        self.ui.my_bugs_table.setRowCount(0)
+        for table in [self.ui.my_bugs_table, self.ui.common_bugs_table, self.ui.l3_bugs_table]:
+            table.setColumnCount(3)
+            table.setRowCount(0)
 
     def load_bugs(self):
         '''
         Load bugs
         '''
-        data = self.bugop.get_my_bugs()
-        self.ui.my_bugs_table.setRowCount(len(data))
 
-        _sorting = self.ui.my_bugs_table.isSortingEnabled()
-        self.ui.my_bugs_table.setSortingEnabled(False)
-        
-        for ridx in range(len(data)):
-            self.set_item_data(self.ui.my_bugs_table, data, ridx)
-            self.set_item_priority(self.ui.my_bugs_table, data, ridx)
-
-        self.ui.my_bugs_table.setSortingEnabled(_sorting)
+        for bugs_getter, table in [(self.bugop.get_my_bugs, self.ui.my_bugs_table,),
+                                   (self.bugop.get_team_bugs, self.ui.common_bugs_table,),
+                                   (self.bugop.get_important_bugs, self.ui.l3_bugs_table,)]:
+            data = bugs_getter()
+            table.setRowCount(len(data))
+            _sorting = table.isSortingEnabled()
+            table.setSortingEnabled(False)
+            for ridx in range(len(data)):
+                self.set_item_data(table, data, ridx)
+                self.set_item_priority(table, data, ridx)
+            table.setSortingEnabled(_sorting)
 
 
 if __name__ == "__main__":
