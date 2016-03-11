@@ -75,16 +75,17 @@ class SettingsWindow(Ui_SettingsDialog, BaseDialogMixIn, UtilsMixIn):
             else:
                 errors.append(dict(message=err_msg, code=err_code, title=title))
 
+        on_errors = False
         if errors:
             error_msg = ["<p>The following sections had an errors in the configuration:</p>", "<ul>"]
             for error in errors:
                 error_msg.append("<li><b>{0}</b><br/>Reason:<br/><i>{1}</i></li>".format(error['title'], error['message']))
             error_msg.append("</ul>")
-            reply = QtGui.QMessageBox.question(self, 'Message', "".join(error_msg),
-                                               QtGui.QMessageBox.Yes, QtGui.QMessageBox.No)
-            if reply == QtGui.QMessageBox.Yes:
-                self.save_config(self.config)
-                self.close()
+            on_errors = QtGui.QMessageBox.question(self, 'Message', "".join(error_msg),
+                                                   QtGui.QMessageBox.Yes, QtGui.QMessageBox.No) == QtGui.QMessageBox.Yes
+        if not errors or on_errors:
+            self.save_config(self.config)
+            self.close()
 
     def _validate_query(self, data, container, title):
         '''
