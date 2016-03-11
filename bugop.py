@@ -117,24 +117,42 @@ class BugzillaOperations(object):
         self.bz = Bugzilla(url, self.config['bugzilla']['user'],
                            self.config['bugzilla']['password']).login()
 
+    def get_important_bugs(self):
+        '''
+        Return a set of bugs, are high priority
+        :return:
+        '''
+        return self._get_bugs(SettingsWindow.IMPORTANT_BUGS)
+
+    def get_team_bugs(self):
+        '''
+        Return a set of bugs, assigned to the team.
+
+        :return:
+        '''
+        return self._get_bugs(SettingsWindow.COMMON_BUGS)
+
     def get_my_bugs(self):
         '''
         Return a set of bugs, assigned to the logged in person.
 
         :return:
         '''
+        return self._get_bugs(SettingsWindow.ASSIGNED_BUGS)
 
+
+    def _get_bugs(self, section):
+        '''
+        Get bugs by a section.
+
+        :param section:
+        :return:
+        '''
         ret = list()
-        query_set = self.config.get('search', dict()).get(
-            SettingsWindow.ASSIGNED_BUGS, dict()).get('data', dict())
-        if not query_set:
-            return ret
-
-        for query_id, query_compound in query_set.items():
-            print "Processing query", query_id
-            if not query_compound.get('query'):
-                continue
-            for bug in self.bz.search(query_compound.get('query')):
+        for query_id, query_compound in self.config.get('search', dict()).get(
+                section, dict()).get('data', dict()).items():
+            print "Processing {0} query: {1}".format(section, query_id)
+            for bug in self.bz.search(query_compound.get('query', list())):
                 if not self._filter(bug, query_compound.get('filter')):
                     ret.append({
                         'id': bug['id'],
@@ -152,13 +170,23 @@ class BugzillaOperations(object):
         :param q_filter:
         :return:
         '''
+        # Hell of conditions...
+        # Don't like it? Your PR is welcome!
         if q_filter:
-            if 'status' in q_filter and bug['status'] in q_filter.get('status'):
+            if 'exclude-status' in q_filter and bug['status'] in q_filter.get('exclude-status'):
                 return True
+
+            if 'status' in q_filter and bug['status'] in q_filter.get('status'):
+                return False
+
             if 'resolution' in q_filter:
                 if not q_filter['resolution'] and bug['resolution']:
                     return True
                 elif q_filter['resolution'] and bug['resolution'] in q_filter['resolution']:
+                    return False
+
+            if 'exclude-resolution' in q_filter:
+                if q_filter['exclude-resolution'] and bug['resolution'] in q_filter['exclude-resolution']:
                     return True
 
         return False
